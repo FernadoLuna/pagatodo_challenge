@@ -3,18 +3,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 //types
 import { BankState,banks } from '../types/banksTypes';
-
+//api
+import { getDataBanksApi } from '../../services/banksApi';
 
 // Thunks
 const downloadDataBanks = createAsyncThunk(
   'banksData/downloadDataBanks',
   async () => {
     try {
-      const response = await fetch('https://dev.obtenmas.com/catom/api/challenge/banks');
-      const data = await response.json();
+      const data  = await getDataBanksApi();
       if (data) {
        await AsyncStorage.setItem('banksData', JSON.stringify(data));
-       console.log(data);
       }
       return data;
     } catch (error) {
